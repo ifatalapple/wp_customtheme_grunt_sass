@@ -17,10 +17,9 @@ Tags:
  * 
  */
 
-@import url('bootstrap-sass/assets/stylesheets/bootstrap-theme.min.css');
-@import url('bootstrap-sass/assets/stylesheets/bootstrap.min.css');
-@import url('bootstrap-sass/assets/stylesheets/bootstrap-theme.min.css');
-@import url('bootstrap-sass/assets/stylesheets/bootstrap.css'); 
+@import url('/css/bootstrap-theme.css');
+@import url('/css/bootstrap.css');
+
 
 
 

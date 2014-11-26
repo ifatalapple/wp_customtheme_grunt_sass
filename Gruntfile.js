@@ -60,34 +60,37 @@ module.exports = function(grunt) {
             // 2. Configuration for concatinating files goes here.
             dist: {
                 src: [
-                    'js/libs/*.js', // All JS in the libs folder
-                    'js/global.js'  // This specific file
+                    'wordpress/wp-content/themes/alphatheme/bootstrap-sass/assets/javascripts/bootstrap/*.js', // All JS in the libs folder
+                    'wordpress/wp-content/themes/alphatheme/dev/js/global.js'  // This specific file
                 ],
-            dest: 'js/build/production.js',
+            dest: 'wordpress/wp-content/themes/alphatheme/dev/js/production.js',
             }
         },
 
         uglify: {
             build: {
-                src: 'js/build/production.js',
-                dest: 'js/build/production.min.js'
+                src: 'wordpress/wp-content/themes/alphatheme/dev/js/production.js',
+                dest:'wordpress/wp-content/themes/alphatheme/dev/js/production.min.js'
             }
         },
+
+        
 
         imagemin: {
             dynamic: {
                 files: [{
                     expand: true,
-                    cwd: 'images/',
-                    src: ['**/*.{png,jpg,gif}'],
-                    dest: 'images/build/'
+                    cwd: 'wordpress/wp-content/themes/alphatheme/dev/images/',
+                    src: ['wordpress/wp-content/themes/alphatheme/dev/**/*.{png,jpg,gif}'],
+                    dest: 'wordpress/wp-content/themes/alphatheme/dev/images/'
                 }]
             }
         },
 
         watch: {
             scripts: {
-                files: ['js/*.js'],
+                files: ['wordpress/wp-content/themes/alphatheme/bootstrap-sass/assets/javascripts/bootstrap/*.js',
+                        'wordpress/wp-content/themes/alphatheme/dev/js/global.js'],
                 tasks: ['concat', 'uglify'],
                 options: {
                     spawn: false,
@@ -95,7 +98,8 @@ module.exports = function(grunt) {
             },
 
             css: {
-                files: ['**/*.scss'],
+                files: ['wordpress/wp-content/themes/alphatheme/bootstrap-sass/assets/stylesheets/**/*.scss',
+                        'wordpress/wp-content/themes/alphatheme/dev/scss/**/*.scss'],
                 tasks: ['sass'],
                 options: {
                     spawn: false,
@@ -110,24 +114,24 @@ module.exports = function(grunt) {
             },
 
             livereload: {
-                files: ['**/*.html', '**/*.php', 'assets/images/**/*.{png,jpg,jpeg,gif,webp,svg}']
+                files: ['**/*.html', '**/*.php', 'wordpress/wp-content/themes/alphatheme/assets/images/**/*.{png,jpg,jpeg,gif,webp,svg}']
             },
 
             compass: {
-                files: ['scss/{,*/}*.{scss,sass}'],
+                files: ['sass/**/{,*/}*.{scss,sass}'],
                 taskts: ['compass:dev']
             },
 
             sass: {
-                files: ['sass/**/*.sass'],
-                tasks: ['sass:dev'],
+                files: ['dev/sass/**/*.sass'],
+                tasks: ['sass:dev','concat'],
                 options: {
                     livereload: 35729
                 } 
             },
 
             php: {
-                files: ['*.php','includes/{,*/}*.php'],
+                files: ['*.php','wordpress/wp-includes/{,*/}*.php'],
                 options: {
                     livereload: 35729
                 }
@@ -143,9 +147,9 @@ module.exports = function(grunt) {
             dev: {
                 files: [
                     {
-                        src:['**/*.sass','!**/_*.sass'],
-                        cwd: 'sass',
-                        dest:'css',
+                        src:['**/*.sass','!**/_*.sass',''],
+                        cwd: 'wordpress/wp-content/themes/alphatheme/dev/sass/',
+                        dest:'wordpress/wp-content/themes/alphatheme/dev/css/',
                         ext:'.css',
                         expand:true
                     }
@@ -160,41 +164,51 @@ module.exports = function(grunt) {
         compass: {
             dev: {
                 options: {
-                    require: 'susy', // optional if you don't use Susy. But you should!
-                    sassDir: 'dev/scss',
-                    cssDir: 'dev/css',
-                    fontsDir: 'dev/fonts',
-                    javascriptsDir: 'dev/js',
-                    imagesDir: 'dev/images',
+                    sassDir: 'wordpress/wp-content/themes/alphatheme/dev/sass/',
+                    cssDir: 'wordpress/wp-content/themes/alphatheme/dev/css/',
+                    fontsDir: 'wordpress/wp-content/themes/alphatheme/dev/fonts/',
+                    javascriptsDir: 'wordpress/wp-content/themes/alphatheme/dev/js/',
+                    imagesDir: 'wordpress/wp-content/themes/alphatheme/dev/images/',
                     relativeAssets: true,
                 }
             }
         },
 
+        concat_css: {
+            options: {},
+            files: {
+                'dev/css/global.min.css': [
+                    'src/styles/global.css', 
+                    'src/styles/componentB.css'
+                ],
+            },
+        },
+
         less: {
             development: {
                 options: {
-                    paths: ['stylesheets/css']
+                    paths: ['wordpress/wp-content/themes/alphatheme/dev/css/']
                 },
                 files: {
-                    "path/to/results.css": "path/to/source.less"
+                    "wordpress/wp-content/themes/alphatheme/dev/css/global.css": "wordpress/wp-content/themes/alphatheme/dev/sass/global.sass"
                 }
             },
 
             production: {
                 options: {
-                    paths: ['stylesheets/css'],
+                    paths: ['wordpress/wp-content/themes/alphatheme/prod/css/'],
                     cleancss: true,
                     modifyVars: {
-                        imgPath: 'path/to/images',
+                        imgPath: 'wordpress/wp-content/themes/alphatheme/images/',
                         bgColor: 'red'
                     }
                 },
                 files: {
-                    'path/to/results.css': 'path/to/source.less'
+                    'wordpress/wp-content/themes/alphatheme/prod/css/production.min.css': 'wordpress/wp-content/themes/alphatheme/prod/sass/production.sass'
                 }
             }
-        }
+        },
+
         connect: {
             server: {
                 options: {
@@ -217,6 +231,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-php');
     grunt.loadNpmTasks('load-grunt-tasks');
     grunt.loadNpmTasks('grunt-contrib-compass');
+    grunt.loadNpmTasks('grunt-concat-css');
     //grunt.loadNpmTasks('grunt-phpcs');
     //grunt.loadNpmTasks('grunt-phplint');
     //grunt.loadNpmTasks('grunt-phpunit');
