@@ -1,26 +1,41 @@
 <?php get_header(); ?>
-  <div id="main">
-    <div id="content">
-      <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
-        <h2><a href="<?php the_permalink() ?>"><?php the_title(); ?></a></h2>
- 
-        <div id="meta">
-	  <span>geschrieben am: <?php the_date('d.m.Y'); ?>
-	  von: <?php the_author(); ?> in
-	  Kategorie(n): <?php the_category(', '); ?><?php the_tags(' und getagged mit: ', '', ''); ?></span>
-        </div>
- 		<?php if (has_post_thumbnail()) { the_post_thumbnail('hard'); }else{}?> 
-        <div class="entry">
-	  <?php the_content(); ?>
+
+<div class="container">
+	<div class="row">
+		<div class="span8">
+			<?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
+
+			<div class="row">
+				<div class="page-header span8">
+					<h2><?php the_title();?> <small><em>by: <?php the_author( ); ?></em></small></h2>
+					<h4><?php the_date(); ?></h4>
+				</div>
+				
+
+				<div class="row">
+					<div class="span8">
+						<?php the_content(); ?>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="span8">
+						<?php comments_template(); ?>
+					</div>
+				</div>
+				
+				<?php endwhile; ?>
+				<!-- post navigation -->
+				<?php else: ?>
+				<!-- no posts found -->
+				<?php endif; ?>
+			</div>
+		</div>
+		<div class="span4">
+			<?php get_sidebar(); ?>
+		</div>
 	</div>
- 
-      <?php endwhile; endif; ?>
-	<?php comments_template(); ?>
-    </div><!-- content -->
- 
-    <div id="sidebar">
-      <?php get_sidebar(); ?>
-    </div><!-- #sidebar -->
-  </div> <!-- #main -->
- 
+</div>
+
+
 <?php get_footer(); ?>

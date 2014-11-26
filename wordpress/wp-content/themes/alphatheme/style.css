@@ -6,86 +6,203 @@ Version: 1.0
 Tags:
 */
 
-@import url('bootstrap/css/bootstrap.min.css');
-@import url('bootstrap/css/bootstrap.css'); 
+/**
+ *  Colors: 
+ *
+ *	blue: #0F2741;
+ *	white: #ecedf3;
+ *	brown: #786C5C;
+ *	black: #181818;
+ *  tan: #D6D4BB;
+ * 
+ */
+
+@import url('bootstrap-sass/assets/stylesheets/bootstrap-theme.min.css');
+@import url('bootstrap-sass/assets/stylesheets/bootstrap.min.css');
+@import url('bootstrap-sass/assets/stylesheets/bootstrap-theme.min.css');
+@import url('bootstrap-sass/assets/stylesheets/bootstrap.css'); 
 
 
-/* MY CUSTOM STYLES
---------------------------------------------- */
 
-* {
-	margin: 0;
+
+/* Customize the navbar links to be fill the entire space of the .navbar */
+.navbar .navbar-inner {
+padding: 0;
+}
+.navbar .nav {
+margin: 0;
+display: table;
+width: 100%;
+}
+.navbar .nav li {
+display: table-cell;
+width: 1%;
+float: none;
+}
+.navbar .nav li a {
+font-weight: bold;
+text-align: center;
+border-left: 1px solid rgba(255,255,255,.75);
+border-right: 1px solid rgba(0,0,0,.1);
+}
+.navbar .nav li:first-child a {
+border-left: 0;
+border-radius: 3px 0 0 3px;
+}
+.navbar .nav li:last-child a {
+border-right: 0;
+border-radius: 0 3px 3px 0;
+}
+
+/**
+ * Sticky Footer Styles
+ */
+
+@import url(http://fonts.googleapis.com/css?family=Droid+Sans+Mono);
+
+html, body {
+	height: 100%;
+    /* The html and body elements cannot have any padding or margin. */
+}
+
+  /* Wrapper for page content to push down footer */
+#wrap {
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  /* Negative indent footer by it's height */
+  margin: 0 auto -120px;
+}
+
+  /* Set the fixed height of the footer here */
+#push, footer{
+    height: 120px;
+}
+  footer{
+  	border-top: 3px solid #786C5C;
+    background-color: #181818;
+    color: #bcbcbc;
+    padding-top: 10px;
+}
+
+/**
+ * Global Styles
+ */
+
+body{
+	background: #ecedf3;
+	font-family: 'Droid Sans Mono', sans-serif;
+}
+
+header{
+	background: #0F2741;
+	color: white;
+	padding-top: 25px;
+	padding-bottom: 25px;
+	font-size: 24px;
+	border-bottom: 3px solid #786C5C;
+}
+
+.page-header a{
+	color: white;
+}
+
+.page-header a:hover{
+	text-decoration: none;
+}
+
+.navbar{
+	-webkit-box-shadow: 0px 1px  20px 1 rgba(0,0,0,.5);
+	-moz-box-shadow: 0px 1px  20px   rgba(0,0,0,.5);
+	box-shadow: 0px 1px  20px   rgba(0,0,0,.5);
+}
+
+.navbar .navbar-inner {
 	padding: 0;
+	min-height: 40px;
+	padding-left: 20px;
+	padding-right: 20px;
+	background-color: ##d6d4bb;
+	background-image: -moz-linear-gradient(top, ##d6d4bb, ##c3c09c);
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(##d6d4bb), to(##c3c09c));
+	background-image: -webkit-linear-gradient(top, ##d6d4bb, ##c3c09c);
+	background-image: -o-linear-gradient(top, ##d6d4bb, ##c3c09c);
+	background-image: linear-gradient(to bottom, ##d6d4bb, ##c3c09c);
+	background-repeat: repeat-x;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='##d6d4bbf', endColorstr='#ff#c3c09c', GradientType=0);
+	border: 1px solid #d4d4d4;
+	-webkit-border-radius: 0;
+	-moz-border-radius: 0;
+	border-radius: 0;
+	-webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.065);
+	-moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.065);
+	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.065);
+}
+.navbar .nav, .slide-controls {
+	margin: 0;
+}
+.navbar .nav li, .slide-controls ul li {
+	display: table-cell;
+	width: 1%;
+	float: none;
+}
+.navbar .nav li a{
+	font-weight: bold;
+	text-align: center;
+	border-left: 1px solid rgba(255,255,255,.75);
+	border-right: 1px solid rgba(0,0,0,.1);
+}
+.navbar .nav li:first-child a, .slide-controls ul li:first-child a {
+	border-left: 0;
+}
+.navbar .nav li:last-child a, .slide-controls ul li:last-child a {
+	border-right: 0;
 }
 
-.clear {
-	clear: both;
+.carousel-indicators .active {
+	background-color: #0F2741;
 }
 
-.inner {
-	width: 1000px;
-	margin: 0 auto;
+.item img{
+	width: 100%;
 }
 
-body {
-	background: #f5f5f5;
+.media{
+	padding: 15px;
+	border-bottom: 3px solid #e5e5e5;
 }
 
-#header {
-	padding: 1% 2% 0 2%;
-	width: 96%;
-	background: #fff;
+.thumbnails a{
+	color: #0F2741;
 }
 
-#menu {
-	margin: 1% -2% 0;
-	background: #ccc;
-	padding: 0.5%;
-}
-
-#menu li {
-	display: inline;
+.nav-pills>.active>a, .nav-pills>.active>a:hover, .nav-pills>.active>a:focus {
+color: #ffffff;
+background-color: #0F2741;
 }
 
 
-#main {
-	margin: 2% 0 0 0;
+footer .nav a{
+	color: #bcbcbc;
 }
 
-#content {
-	width: 69%;
-	margin: 0 2% 0 0;
-	background: #fff;
-	padding: 1% 2%;
+footer .nav a:hover{
+	color: #181818;
 }
 
-#sidebar {
-	width: 21%;
-	padding: 1% 2%;
-	background: #fff;
-}
+/**
+ * Mobile Styles
+ */
 
-#sidebar, #content {
-	float: left;
-}
+@media (max-width: 767px) {
+	header{
+		padding: 10px 20px;
+		text-align: center;
+		line-height: 25px;
+	}
 
-#meta {
-	background: #ccc;
-	padding: 0.5% 1%;
-	margin: 1% 0;
-}
+	.hero-unit h1{
+		font-size: 32px;
+	}
 
-#category_description,
-#tag_description {
-	margin: 0 0 2%;
-}
-
-.search-title {
-	margin: 0 0 2% 0;
-}
-
-#comments_container {
-	padding: 2%;
-	margin: 2% 0 0 0;
-	border-top: 1px solid #ccc;
 }

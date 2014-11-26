@@ -35,6 +35,9 @@ define('DB_CHARSET', 'utf8');
 /** Der collate type sollte nicht geändert werden */
 define('DB_COLLATE', '');
 
+
+/** define('FS_METHOD', 'direct'); */
+/** Neue Methode um Plugins direkt zu downloaden */
 /**#@+
  * Sicherheitsschlüssel
  *
