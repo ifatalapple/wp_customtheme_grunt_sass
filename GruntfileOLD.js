@@ -4,17 +4,11 @@ module.exports = function(grunt) {
 
     // load all grunt tasks
   
+    //require('load-grunt-tasks')(grunt);
 
     // 1. All configuration goes here 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
-        
-         /*==
-        |   php V
-        |   concat V
-        |   uglify V
-        |   imagemin V
-         \==*/
 
         php: {
             dist: {
@@ -26,7 +20,42 @@ module.exports = function(grunt) {
                 }
             }
         },
+        /*
+        phpcs: {
+            application: {
+                dir: 'src'
+            },
+            options: {
+                bin: 'phpcs',
+                standard: 'PSR-MOD'
+            }
+        },
         
+        phplint: {
+            options: {
+                swapPath: '/tmp'
+            },
+            all: ['src/*.php', 'src/base/*.php', 'src/config/*.php', 'src/controller/*.php', 'src/model/*.php']
+        },
+       
+        phpunit: {
+            unit: {
+                dir: 'tests/unit'
+            },
+            options: {
+                bin: 'phpunit',
+                bootstrap: 'tests/Bootstrap.php',
+                colors: true,
+                testdox: true
+            }
+        },
+        
+        php_analyzer: {
+            application: {
+                dir: 'src'
+            }
+        },
+        */
         concat: {
             // 2. Configuration for concatinating files goes here.
             dist: {
@@ -45,6 +74,8 @@ module.exports = function(grunt) {
             }
         },
 
+        
+
         imagemin: {
             dynamic: {
                 files: [{
@@ -57,19 +88,6 @@ module.exports = function(grunt) {
         },
 
         watch: {
-
-             /*==
-            |   scripts     V
-            |   css         X
-            |   html        V
-            |   livereload  V
-            |   compass     V
-            |   sass
-            |   php
-            |   options
-            |
-             \==*/
-
             scripts: {
                 files: ['wordpress/wp-content/themes/alphatheme/bootstrap-sass/assets/javascripts/bootstrap/*.js',
                         'wordpress/wp-content/themes/alphatheme/dev/js/global.js'],
@@ -77,6 +95,16 @@ module.exports = function(grunt) {
                 options: {
                     spawn: false,
                 },
+            },
+
+            css: {
+                files: ['wordpress/wp-content/themes/alphatheme/**/*.scss',
+                        'wordpress/wp-content/themes/alphatheme/**/*.sass'],
+                tasks: ['compass'],
+                options: {
+                    spawn: false,
+                    livereload: true,
+                }
             },
 
             html: {
@@ -91,15 +119,13 @@ module.exports = function(grunt) {
             },
 
             compass: {
-                files: ['/**/*.{scss,sass}'],
+                files: ['/**/{,*/}*.{scss,sass}'],
                 taskts: ['compass:dev']
             },
-
 
             sass: {
                 files: ['dev/**/*.sass'],
                 tasks: ['sass:dev'],
-                compass: true,
                 options: {
                     livereload: 35729
                 } 
@@ -119,25 +145,17 @@ module.exports = function(grunt) {
         },
 
         sass: {
-          dev: {
-            options: {
-              style: 'expanded',
-              banner: '<%= tag.banner %>',
-              compass: true
-            },
-            files: {
-              '<%= project.assets %>/css/style.css': '<%= project.css %>'
+            dev: {
+                dist: {
+                   files: [{
+                        expand: true,
+                        cwd: 'sass/',
+                        src:['/wordpress/wp-content/themes/alphatheme/**/*.sass','!**/_*.sass'],
+                        dest:'/wordpress/wp-content/themes/alphatheme/dev/css/',
+                        ext:'.css' 
+                    }]
+                }  
             }
-          },
-          dist: {
-            options: {
-              style: 'compressed',
-              compass: true
-            },
-            files: {
-              '<%= project.assets %>/css/style.css': '<%= project.css %>'
-            }
-          }
         },
 
         compass: {
@@ -149,39 +167,39 @@ module.exports = function(grunt) {
                     javascriptsDir: 'wordpress/wp-content/themes/alphatheme/dev/js/',
                     imagesDir: 'wordpress/wp-content/themes/alphatheme/dev/images/',
                     relativeAssets: true,
-                    environment: 'development',
-                }
-            },
-            prod: {
-                 options: {              
-                    sassDir: ['wordpress/wp-content/themes/alphatheme/prod/sass/'],
-                    cssDir: ['wordpress/wp-content/themes/alphatheme/prod/css/'],
-                    environment: 'production'
                 }
             }
+        }
+         ,
 
-        },
-        project: {
-          app: 'app',
-          assets: '<%= project.app %>/assets',
-          src: '<%= project.assets %>/src',
-          css: [
-            '<%= project.src %>/scss/style.scss'
-          ],
-          js: [
-            '<%= project.src %>/js/*.js'
-          ]
+       
+        less: {
+            development: {
+                options: {
+                    paths: ['wordpress/wp-content/themes']
+                },
+                files: {
+                    "/alphatheme/dev/css/global.css": "/sass/global.sass",
+                    "/alphatheme/dev/css/bootstrap-style.css": "/bootstrap-sass/template/project/style.sass",
+                }
+            },
+        
+            production: {
+                options: {
+                    paths: ['wordpress/wp-content/themes/alphatheme/prod/css/'],
+                    cleancss: true,
+                    modifyVars: {
+                        imgPath: 'wordpress/wp-content/themes/alphatheme/images/'
+                        
+                    }
+                },
+                files: {
+                    'wordpress/wp-content/themes/alphatheme/prod/css/production.css': 'wordpress/wp-content/themes/alphatheme/prod/sass/production.sass'
+                }
+            }
         },
 
-        tag: {
-             banner: '/*!\n' +
-                  ' * <%= pkg.name %>\n' +
-                  ' * <%= pkg.title %>\n' +
-                  ' * @author <%= pkg.author %>\n' +
-                  ' * @version <%= pkg.version %>\n' +
-                  ' * Copyright <%= pkg.copyright %>. <%= pkg.license %> licensed.\n' +
-                  ' */\n'
-        },
+        
 
         connect: {
             server: {
@@ -191,25 +209,12 @@ module.exports = function(grunt) {
                      base: 'public'
                 }
             }
-        }  
+        }
+
+        
     });
 
     // 3. Where we tell Grunt we plan to use this plug-in.
-
-     /*==
-    |   contrib-concat      V
-    |   contrib-uglify      V
-    |   contrib-imagemin    V
-    |   contrib-watch       V
-    |   contrib-sass
-    |   contrib-php         V
-    |   contrib-compass
-    |   contrib-connect     V
-    |   contrib-less
-    |   
-    |   
-     \==*/
-
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-imagemin');
@@ -217,15 +222,22 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-sass');
     grunt.loadNpmTasks('grunt-php');
     grunt.loadNpmTasks('grunt-contrib-compass');
-    grunt.loadNpmTasks('grunt-contrib-connect');
 
+    grunt.loadNpmTasks('grunt-contrib-connect');
+    grunt.loadNpmTasks('grunt-contrib-less');
+    // grunt.loadNpmTasks('load-grunt-tasks');
+    // grunt.loadNpmTasks('grunt-concat-css');
+    // grunt.loadNpmTasks('grunt-phpcs');
+    // grunt.loadNpmTasks('grunt-phplint');
+    // grunt.loadNpmTasks('grunt-phpunit');
+    // grunt.loadNpmTasks('grunt-php-analyzer');
     
 
     // 4. Where we tell Grunt what to do when we type "grunt" into the terminal.
-
+    // grunt.registerTask('precommit' ['phplint:all','phpunit:unit']);
+    // grunt.registerTask('default', ['phplint:all','phpcs','phpunit:unit','php_analyzer:application']);
     grunt.registerTask('default', ['watch', 'connect']);
-    grunt.registerTask('dev', ['compass:dev']);
-    grunt.registerTask('prod', ['compass:prod']);
+    //grunt.registerTask('server' ['php']);
 
 
 };
