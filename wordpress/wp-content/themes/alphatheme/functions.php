@@ -9,7 +9,7 @@ function load_styles_and_scripts(){
 	//load styles
 	wp_enqueue_style(
 		'bootstrap-style',
-		get_template_directory_uri(). '/dev/css/bootstrap-style.css'
+		get_template_directory_uri(). '/bootstrap-sass/templates/project/style.css'
 	);
 
 	wp_enqueue_style(
